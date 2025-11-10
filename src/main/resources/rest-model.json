@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "defaultSchema": "RestAPISchema",
+  "schemas": [
+    {
+      "name": "RestAPISchema",
+      "type": "custom",
+      "factory": "org.apache.calcite.adapter.restapi.rest.RestSchemaFactory",
+      "operand": {
+        "group": "RestAPISchemaGroup"
+      }
+    }
+  ]
+}
