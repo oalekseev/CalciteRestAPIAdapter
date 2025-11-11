@@ -162,7 +162,7 @@ In this case, there are no nested filter groups; all filtering is a flat set of 
 ### REST services with support for DNF (Disjunctive Normal Form)  
 Such services can handle complex filter structures in the form of a disjunction (logical OR) of groups of conditions, where inside each group, conditions are combined through conjunction (logical AND).  
 The use of different comparison operators is allowed, including `>=`, `=`, and others.  
-The request structure contains two key fields — `where` with a group of conditions combined by AND, and `or`, which is an array of groups of conditions combined by OR, each group of conditions combined by AND, for example:
+The request structure contains two key fields — `where` with an array of conditions combined by AND, and `or`, which is an array of groups combined by OR, conditions in each group combined by AND, for example:
 
 ```json
 {
