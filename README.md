@@ -291,9 +291,12 @@ See [Apache Freemarker documentation](https://freemarker.apache.org/docs/dgui_te
 Paging is enabled by `page-size > 0`, resulting in multiple REST calls with macros `${limit}` and `${offset}`.  
 Paging stops when a REST reply contains less elements than page-size.
 
-:warning:  
-Current implementation does **not** natively support SQL OFFSET and LIMIT mapped to REST.  
-LIMIT is supported via paged requests until enough records are retrieved. OFFSET in SQL is handled only client-side after retrieving all records from REST.
+:warning: The current implementation does not natively support mapping SQL OFFSET and LIMIT clauses to REST requests.  
+LIMIT is handled through paginated requests until the required number of records is retrieved,  
+while SQL OFFSET is applied only client-side after fetching all records from the REST source.  
+This limitation arises because the method  
+Enumerable<@Nullable Object[]> scan(DataContext root, List<RexNode> filters, int @Nullable[] projects)  
+of the org.apache.calcite.schema.ProjectableFilterableTable interface does not receive the OFFSET and LIMIT values specified in the SQL query.
 
 ---
 
