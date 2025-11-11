@@ -125,7 +125,7 @@ Below is an example XML file for REST API – `OrdersService` with `users` and `
                 - `type` – field type: `REQUEST` (query only), `RESPONSE` (returned only) and `BOTH` (both - request and response)
 
 Example: if page-start=0, page-size=100, then macro `${limit}=100`, and macro `${offset}` will be: 0, 100, 200,... on each REST call. The page is `(offset / limit)?int`.  
-Request parameters (`type=REQUEST`) are critical to limit REST response volume; make sure REST can restrict results, if not, it may return all data.
+Request parameters are critical to limit REST response volume; make sure REST can restrict results, if not, it may return all data.
 
 ---
 
