@@ -361,7 +361,7 @@ System.setProperty("saffron.default.collation.name", "UTF-8$en_US");
 public static void main(String[] args) {
   try (Connection connection = getConnection();
        Statement statement = connection.createStatement();) {
-      ResultSet rs = statement.executeQuery();
+      ResultSet rs = statement.executeQuery("SELECT * FROM users u");
       while (rs.next()) {
           String userName = rs.getString("name");
           int userAge = rs.getInt("age");
