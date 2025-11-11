@@ -304,13 +304,13 @@ You can use any valid SQL query, including with WHERE, CTEs, JOINs, etc. See htt
 You may select specific fields:
 If selecting all table columns, use `*` or specify columns in the same order as in XML (related to the characteristics of Calcite itself).
 
-```
+```sql
 SELECT name, last_name FROM users
 ```
 
 For REST services without support for DNF
 
-```
+```sql
 SELECT * FROM users u, orders o 
 WHERE 
 o.start_time = '2023-01-01 00:00:00' AND o.end_time = '2023-01-15 00:00:00' AND
@@ -319,7 +319,7 @@ u.id = o.user_id
 
 For REST services with support for DNF
 
-```
+```sql
 SELECT * FROM users u, orders o
 WHERE 
 users.age >= 21 AND
@@ -329,7 +329,7 @@ u.id = o.user_id
 
 If you need to join tables from REST service (maybe even from different REST services (defined in other xml-config files) specify schema if needed). REST calls will be made for each table, and JOIN will occur after fetching.
 
-```
+```sql
 WITH constants AS (
     SELECT 'Alice' AS name_const, 21 AS age_const
 )
@@ -339,7 +339,7 @@ JOIN constants c ON u.name = c.name_const
 WHERE u.age >= c.age_const
 ```
 
-```
+```sql
 SELECT * FROM users
 WHERE (name = 'Bob' OR age = 23)
       AND (name = 'Martin' OR (age = 21 AND name <> 'Alice'))
@@ -347,6 +347,66 @@ WHERE (name = 'Bob' OR age = 23)
 
 
 ## Usage
+
+In your app you should create Calcite connection
+
+```java
+
+private final static String DEFAULT_SCHEMA_NAME = "rest";
+private final static String CONTEXT_NAME = "context";
+private final static String ENCODING = "UTF-8";
+
+System.setProperty("saffron.default.charset", ENCODING);
+System.setProperty("saffron.default.nationalcharset", ENCODING);
+System.setProperty("saffron.default.collation.name", ENCODING + "$en_US");
+
+public static void main(String[] args) {
+  try (Connection connection = getConnection();
+       PreparedStatement ps = connection.prepareStatement("SELECT * FROM users");) {
+      ResultSet rs = ps.executeQuery();
+      while (rs.next()) {
+          String field1 = rs.getString(1);
+      }
+      //Do some work
+
+  } catch (Exception e) {
+      throw new RuntimeException(e);
+  }
+}
+
+
+private Connection getConnection() {
+
+        System.setProperty("saffron.default.charset", ENCODING);
+        System.setProperty("saffron.default.nationalcharset", ENCODING);
+        System.setProperty("saffron.default.collation.name", ENCODING + "$en_US");
+
+
+        Map<String, TemplateModel> macrosValuesMap = new HashMap<>();
+        macrosValuesMap.put("REST_API_VERSION", new SimpleScalar("v1.0"));
+
+        Properties properties = new Properties();
+        properties.setProperty(CalciteConnectionProperty.FUN.camelName(), "all");
+        properties.setProperty(CalciteConnectionProperty.CASE_SENSITIVE.camelName(), "false");
+        properties.setProperty(CalciteConnectionProperty.QUOTED_CASING.camelName(), Casing.UNCHANGED.name());
+        properties.setProperty(CalciteConnectionProperty.UNQUOTED_CASING.camelName(), Casing.UNCHANGED.name());
+        properties.setProperty(CalciteConnectionProperty.LEX.camelName(), "JAVA");
+
+        DriverManager.registerDriver(new org.apache.calcite.jdbc.Driver());
+        CalciteConnection calciteConnection = DriverManager.getConnection("jdbc:calcite:", properties).unwrap(CalciteConnection.class);
+        calciteConnection.setSchema(DEFAULT_SCHEMA_NAME);
+
+        Map<String, Object> contextMap = new HashMap<>();
+        contextMap.put(CONTEXT_NAME, macrosValuesMap);
+        
+        return calciteConnection;
+
+
+    }
+
+
+
+```
 
 Адаптер собирается как билиотека и кладется в classpath вашего приложения. 
 Также туда должны попасть необходимые билиотеки:
