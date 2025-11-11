@@ -246,7 +246,7 @@ Built-in macros:
 - `projects` – key-value structure holding all fields used in SELECT сlause of query (`${projects.<name>}`)
 - `filters` – list of DNF (disjunctive normal form) condition groups
 
-Also, any parameters passed in the Calcite JDBC connection URL are available.
+Also, any parameters passed in the Calcite JDBC connection URL are available. In example there is ${restApiVersion}, ${contentType}, ${jwt_token}
 
 ---
 
