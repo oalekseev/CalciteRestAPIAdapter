@@ -354,11 +354,10 @@ In your app you should create Calcite connection
 
 private final static String DEFAULT_SCHEMA_NAME = "rest";
 private final static String CONTEXT_NAME = "context";
-private final static String ENCODING = "UTF-8";
 
-System.setProperty("saffron.default.charset", ENCODING);
-System.setProperty("saffron.default.nationalcharset", ENCODING);
-System.setProperty("saffron.default.collation.name", ENCODING + "$en_US");
+System.setProperty("saffron.default.charset", "UTF-8");
+System.setProperty("saffron.default.nationalcharset", "UTF-8");
+System.setProperty("saffron.default.collation.name", "UTF-8$en_US");
 
 public static void main(String[] args) {
   try (Connection connection = getConnection();
