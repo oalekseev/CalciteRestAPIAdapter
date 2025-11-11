@@ -243,6 +243,7 @@ Built-in macros:
 - `filters` – list of DNF (disjunctive normal form) condition groups
 
 Also, any parameters passed in the Calcite JDBC connection URL are available.
+
 ---
 
 ## WHERE Clause
