@@ -350,7 +350,7 @@ WHERE (name = 'Bob' OR age = 23)
 
 ## Usage
 
-In your app you should create Calcite connection.
+In your app, you should create a Calcite connection like any other java.sql.Connection﻿ and use it in the usual way.
 
 ```java
 private final static String DEFAULT_SCHEMA_NAME = "rest";
