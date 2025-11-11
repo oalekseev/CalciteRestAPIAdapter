@@ -17,7 +17,7 @@ Below is an example XML file for REST API – `OrdersService` with `users` and `
       <connectiononTimeout>10</connectionTimeout>
       <responseTimeout>30</responseTimeout>
       <method>POST</method>
-      <url>/api/${restApiVersion}/</url>
+      <url>/api/${restApiVersion}</url>
       <body><![CDATA[...]]></body>
       <pageStart>1</pageStart>
       <pageSize>1000</pageSize>
