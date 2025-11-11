@@ -339,7 +339,7 @@ JOIN constants c ON u.name = c.name_const
 WHERE u.age >= c.age_const
 ```
 
-An example of an SQL query that is not in disjunctive normal form (DNF)
+An example of an SQL query that is not in disjunctive normal form (DNF).
 
 ```sql
 SELECT * FROM users
@@ -350,7 +350,7 @@ WHERE (name = 'Bob' OR age = 23)
 
 ## Usage
 
-In your app you should create Calcite connection
+In your app you should create Calcite connection.
 
 ```java
 private final static String DEFAULT_SCHEMA_NAME = "rest";
