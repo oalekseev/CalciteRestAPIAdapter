@@ -352,7 +352,7 @@ JOIN constants c ON u.name = c.name_const
 WHERE u.age >= c.age_const
 ```
 
-An example of an SQL query that is not in disjunctive normal form (DNF).
+An example of an SQL query that is not in disjunctive normal form (DNF), but adapter transforms it to DNF.
 
 ```sql
 SELECT * FROM users
