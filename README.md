@@ -387,12 +387,14 @@ private Connection getConnection() {
 
   DriverManager.registerDriver(new org.apache.calcite.jdbc.Driver());
   CalciteConnection calciteConnection = DriverManager.getConnection("jdbc:calcite:", properties).unwrap(CalciteConnection.class);
-  SchemaPlus rootSchema = configuredConnection.getRootSchema();
-  SchemaFactory restSchemaFactory = new RestSchemaFactory();
+  
   Map<String, Object> contextMap = new HashMap<>();
   contextMap.put(CONTEXT_NAME, macrosValuesMap);
+
+  SchemaPlus rootSchema = configuredConnection.getRootSchema();
+  SchemaFactory restSchemaFactory = new RestSchemaFactory();
   Schema schema = restSchemaFactory.create(rootSchema, "", contextMap);
-  rootSchema.add(schemaName, schema);
+  rootSchema.add(DEFAULT_SCHEMA_NAME, schema);
   calciteConnection.setSchema(DEFAULT_SCHEMA_NAME);
   
   return calciteConnection;
