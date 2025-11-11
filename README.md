@@ -270,8 +270,7 @@ All selected fields will show up in the `projects` macro (keys are field names).
 
 ## FreeMarker Syntax
 
-See [documentation](https://freemarker.apache.org/docs/dgui_template_exp.html#dgui_template_exp_arit).  
-Below are the basics:
+See [Apache Freemarker documentation](https://freemarker.apache.org/docs/dgui_template_exp.html#dgui_template_exp_arit). Below are the basics:
 
 | Description                             | Usage                                                                             |
 |-----------------------------------------|-----------------------------------------------------------------------------------|
