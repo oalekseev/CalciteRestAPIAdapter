@@ -116,9 +116,9 @@ Below is an example XML file for REST API – `OrdersService` with `users` and `
         - `parameters` – list of all table fields
             - **parameter** – field definition:
                 - `name` – field name
-                - `dbType` – field type: boolean, byte, char, short, int, long, float, double, string, date, time, timestamp, uuid
+                - `dbType` – field type: `boolean`, `byte`, `char`, `short`, `int`, `long`, `float`, `double`, `string`, `date`, `time`, `timestamp`, `uuid`
                 - `jsonpath` – relative path from rootJsonpath to field in each array element
-                - `type` – field type: RESPONSE (returned only), REQUEST (query only), BOTH (both)
+                - `type` – field type: `REQUEST` (query only), `RESPONSE` (returned only) and `BOTH` (both - request and response)
 
 Example: if page-start=0, page-size=100, then macro `${limit}=100`, and macro `${offset}` will be: 0, 100, 200,... on each REST call. The page is `(offset / limit)?int`.  
 Request parameters (`type=REQUEST`) are critical to limit REST response volume; make sure REST can restrict results, if not, it may return all data.
