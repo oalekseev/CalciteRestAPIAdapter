@@ -26,6 +26,10 @@ Below is an example XML file for REST API – `OrdersService` with `users` and `
           <key>Content-type</key>
           <value>${contentType}</value>
         </header>
+        <header>
+          <key>Authorization</key>
+          <value>Bearer ${jwt_token}</value>
+        </header>
       </headers>
   </requestData>
   <tables>
@@ -383,7 +387,7 @@ private Connection getConnection() {
   Map<String, TemplateModel> macrosValuesMap = new HashMap<>();
   macrosValuesMap.put("restApiVersion", new SimpleScalar("v1.0"));
   macrosValuesMap.put("contentType", new SimpleScalar("application/json"));
-
+  macrosValuesMap.put("jwt_token", new SimpleScalar("SOME_JWT_TOKEN_HERE"));
 
   Properties properties = new Properties();
   properties.setProperty(CalciteConnectionProperty.FUN.camelName(), "all");
