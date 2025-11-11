@@ -339,10 +339,12 @@ JOIN constants c ON u.name = c.name_const
 WHERE u.age >= c.age_const
 ```
 
+An example of an SQL query that is not in disjunctive normal form (DNF)
+
 ```sql
 SELECT * FROM users
 WHERE (name = 'Bob' OR age = 23)
-      AND (name = 'Martin' OR (age = 21 AND name <> 'Alice'))
+      AND (name = 'Martin' OR (age >= 21 AND name <> 'Alice'))
 ```
 
 
