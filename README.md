@@ -28,7 +28,7 @@ Below is an example XML file for REST API – `OrdersService` with `users` and `
         </header>
         <header>
           <key>Authorization</key>
-          <value>Bearer ${jwt_token}</value>
+          <value>Bearer ${jwtToken}</value>
         </header>
       </headers>
   </requestData>
@@ -150,8 +150,8 @@ In this case, there are no nested filter groups; all filtering is a flat set of 
 ```xml
 <![CDATA[{
     "name": "${name}",
-    "limit": ${limit},
     "page": ${(offset / limit)?int}
+    "limit": ${limit},
     <#if filters?has_content>,
         <#if (filters?size > 1)><#stop "Error: Rest service does not support OR operators"></#if>
         <#list filters[0] as criterion>
@@ -195,8 +195,8 @@ This allows expressing complex filters combining AND and OR. Below Freemarker te
 ```xml
 <![CDATA[{
     "name": "${name}",
-    "limit": ${limit},
     "page": ${(offset / limit)?int}
+    "limit": ${limit},
     <#if filters?has_content>
         "where": [
             <#-- Take the first group (AND inside) -->
@@ -246,7 +246,7 @@ Built-in macros:
 - `projects` – key-value structure holding all fields used in SELECT сlause of query (`${projects.<name>}`)
 - `filters` – list of DNF (disjunctive normal form) condition groups
 
-Also, any parameters passed in the Calcite JDBC connection URL are available. In example there is ${restApiVersion}, ${contentType}, ${jwt_token}
+Also, any parameters passed in the Calcite JDBC connection URL are available. In example there is `${restApiVersion}`, `${contentType}`, `${jwtToken}`
 
 ---
 
@@ -299,8 +299,14 @@ Paging stops when a REST reply contains less elements than page-size.
 LIMIT is handled through paginated requests until the required number of records is retrieved,  
 while SQL OFFSET is applied only client-side after fetching all records from the REST source.  
 This limitation arises because the method  
-Enumerable<@Nullable Object[]> scan(DataContext root, List<RexNode> filters, int @Nullable[] projects)  
-of the org.apache.calcite.schema.ProjectableFilterableTable interface does not receive the OFFSET and LIMIT values specified in the SQL query.
+```java
+Enumerable<@Nullable Object[]> scan(DataContext root, List<RexNode> filters, int @Nullable[] projects)
+```
+of the 
+```java
+org.apache.calcite.schema.ProjectableFilterableTable
+```
+interface does not receive the OFFSET and LIMIT values specified in the SQL query.
 
 ---
 
@@ -387,7 +393,7 @@ private Connection getConnection() {
   Map<String, TemplateModel> macrosValuesMap = new HashMap<>();
   macrosValuesMap.put("restApiVersion", new SimpleScalar("v1.0"));
   macrosValuesMap.put("contentType", new SimpleScalar("application/json"));
-  macrosValuesMap.put("jwt_token", new SimpleScalar("SOME_JWT_TOKEN_HERE"));
+  macrosValuesMap.put("jwtToken", new SimpleScalar("SOME_JWT_TOKEN_HERE"));
 
   Properties properties = new Properties();
   properties.setProperty(CalciteConnectionProperty.FUN.camelName(), "all");
