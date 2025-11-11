@@ -276,11 +276,11 @@ See [Apache Freemarker documentation](https://freemarker.apache.org/docs/dgui_te
 |-----------------------------------------|-----------------------------------------------------------------------------------|
 | Simple parameter usage (e.g. limit)     | `${limit}`                                                                        |
 | Key-value structure (e.g. projects map) | `${projects.name}`<br/>`${projects.age}`                                          |
-| Assign variable (take first list group) | `<#assign list = filters[0] />`                                                   |
+| Assign variable (take first list group) | `<#assign firstGroup = filters[0] />`                                             |
 | Check if list has content               | `<#if filters?has_content>...</#if>`                                              |
-| Access first value in a disjunct        | `${criterion[0].name}`<br/>`${criterion[0].operator}`<br/>`${criterion[0].value}` |
+| Access criterion field values           | `${criterion[0].name}`<br/>`${criterion[0].operator}`<br/>`${criterion[0].value}` |
 | Check if list size > 1                  | `<#if (filters?size > 1)>...</#if>`                                               |
-| Iterate list (`?has_next` for comma)    | `<#list filters as or_group>{...}<#if or_group?has_next>,</#if></#list>`          |
+| Iterate list (`?has_next` for comma)    | `<#list filters as orGroup>{...}<#if orGroup?has_next>,</#if></#list>`          |
 | Integer division                        | `${(offset / limit)?int}`                                                         |
 | Return error on condition               | `<#if (filters?size > 1)><#stop "Error: ..."></#if>`                              |
 
