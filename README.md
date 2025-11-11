@@ -401,8 +401,7 @@ private Connection getConnection() {
 }
 ```
 
-Адаптер собирается как билиотека и кладется в classpath вашего приложения. 
-Также туда должны попасть необходимые билиотеки:
+The adapter is built as a library and placed on your application's classpath. The following required libraries should also be included:
 - Calcite Core 1.37
 - Calcite Linq4j 1.37
 - Apache Calcite Avatica 1.25
