@@ -346,4 +346,37 @@ WHERE (name = 'Bob' OR age = 23)
 ```
 
 
+## Usage
+
+Адаптер собирается как билиотека и кладется в classpath вашего приложения. 
+Также туда должны попасть необходимые билиотеки:
+- Calcite Core 1.37
+- Calcite Linq4j 1.37
+- Apache Calcite Avatica 1.25
+- Apache Calcite Avatica Core 1.25
+- Protocol Buffers 3.24
+- OpenCensus API0.31
+- OpenCensus Contrib HTTP Client 0.31
+- GRPC Context 1.19
+- JTS Core 1.19
+- Janino 3.1
+- Commons Compiler 3.1
+- Json Path 2.8
+- Json Smart 2.4
+- Accessors Smart 2.4
+- jackson-annotations 2.12
+- jackson-core 2.12
+- jackson-databind 2.12
+- jackson-dataformat-xml 2.12
+- jackson-dataformat-yaml 2.12
+- jackson-module-jaxb-annotations 2.6
+- Google Guava 32.1
+- Guava InternalFutureFailureAccess and InternalFutures 1.0
+- Freemarker 2.3.31 2.3
+- Apache Commons Math 3.6
+- Apache Commons Codec 1.6
+- Apache Commons Text 1.3
+- Apache commons Lang 3.7
+- Apache Commons io 2.11
+- stax2-api 4.2
 
