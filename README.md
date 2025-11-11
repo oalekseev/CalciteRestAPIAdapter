@@ -303,6 +303,7 @@ This limitation arises because the method
 Enumerable<@Nullable Object[]> scan(DataContext root, List<RexNode> filters, int @Nullable[] projects)
 ```
 of the 
+
 ```java
 org.apache.calcite.schema.ProjectableFilterableTable
 ```
