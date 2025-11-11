@@ -351,7 +351,6 @@ WHERE (name = 'Bob' OR age = 23)
 In your app you should create Calcite connection
 
 ```java
-
 private final static String DEFAULT_SCHEMA_NAME = "rest";
 private final static String CONTEXT_NAME = "context";
 
@@ -375,13 +374,10 @@ public static void main(String[] args) {
   }
 }
 
-
 private Connection getConnection() {
-
         System.setProperty("saffron.default.charset", ENCODING);
         System.setProperty("saffron.default.nationalcharset", ENCODING);
         System.setProperty("saffron.default.collation.name", ENCODING + "$en_US");
-
 
         Map<String, TemplateModel> macrosValuesMap = new HashMap<>();
         macrosValuesMap.put("REST_API_VERSION", new SimpleScalar("v1.0"));
@@ -401,12 +397,7 @@ private Connection getConnection() {
         contextMap.put(CONTEXT_NAME, macrosValuesMap);
         
         return calciteConnection;
-
-
     }
-
-
-
 ```
 
 Адаптер собирается как билиотека и кладется в classpath вашего приложения. 
