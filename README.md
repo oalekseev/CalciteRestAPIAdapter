@@ -355,7 +355,7 @@ WHERE (name = 'Bob' OR age = 23)
 - Apache Calcite Avatica 1.25
 - Apache Calcite Avatica Core 1.25
 - Protocol Buffers 3.24
-- OpenCensus API0.31
+- OpenCensus API 0.31
 - OpenCensus Contrib HTTP Client 0.31
 - GRPC Context 1.19
 - JTS Core 1.19
@@ -372,7 +372,7 @@ WHERE (name = 'Bob' OR age = 23)
 - jackson-module-jaxb-annotations 2.6
 - Google Guava 32.1
 - Guava InternalFutureFailureAccess and InternalFutures 1.0
-- Freemarker 2.3.31 2.3
+- Apache Freemarker 2.3
 - Apache Commons Math 3.6
 - Apache Commons Codec 1.6
 - Apache Commons Text 1.3
