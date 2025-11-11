@@ -360,8 +360,8 @@ System.setProperty("saffron.default.collation.name", "UTF-8$en_US");
 
 public static void main(String[] args) {
   try (Connection connection = getConnection();
-       PreparedStatement ps = connection.prepareStatement("SELECT * FROM users");) {
-      ResultSet rs = ps.executeQuery();
+       Statement statement = connection.createStatement();) {
+      ResultSet rs = statement.executeQuery();
       while (rs.next()) {
           String userName = rs.getString("name");
           int userAge = rs.getInt("age");
