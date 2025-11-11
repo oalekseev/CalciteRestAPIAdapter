@@ -17,14 +17,14 @@ Below is an example XML file for REST API – `OrdersService` with `users` and `
       <connectiononTimeout>10</connectionTimeout>
       <responseTimeout>30</responseTimeout>
       <method>POST</method>
-      <url>/api</url>
+      <url>/api/${restApiVersion}/</url>
       <body><![CDATA[...]]></body>
       <pageStart>1</pageStart>
       <pageSize>1000</pageSize>
       <headers>
         <header>
           <key>Content-type</key>
-          <value>${content-type}</value>
+          <value>${contentType}</value>
         </header>
       </headers>
   </requestData>
@@ -376,7 +376,9 @@ private Connection getConnection() {
   System.setProperty("saffron.default.collation.name", "UTF-8$en_US");
 
   Map<String, TemplateModel> macrosValuesMap = new HashMap<>();
-  macrosValuesMap.put("REST_API_VERSION", new SimpleScalar("v1.0"));
+  macrosValuesMap.put("restApiVersion", new SimpleScalar("v1.0"));
+  macrosValuesMap.put("contentType", new SimpleScalar("application/json"));
+
 
   Properties properties = new Properties();
   properties.setProperty(CalciteConnectionProperty.FUN.camelName(), "all");
