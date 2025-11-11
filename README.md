@@ -354,10 +354,6 @@ In your app you should create Calcite connection
 private final static String DEFAULT_SCHEMA_NAME = "rest";
 private final static String CONTEXT_NAME = "context";
 
-System.setProperty("saffron.default.charset", "UTF-8");
-System.setProperty("saffron.default.nationalcharset", "UTF-8");
-System.setProperty("saffron.default.collation.name", "UTF-8$en_US");
-
 public static void main(String[] args) {
   try (Connection connection = getConnection();
        Statement statement = connection.createStatement();) {
@@ -375,29 +371,32 @@ public static void main(String[] args) {
 }
 
 private Connection getConnection() {
-        System.setProperty("saffron.default.charset", ENCODING);
-        System.setProperty("saffron.default.nationalcharset", ENCODING);
-        System.setProperty("saffron.default.collation.name", ENCODING + "$en_US");
+  System.setProperty("saffron.default.charset", "UTF-8");
+  System.setProperty("saffron.default.nationalcharset", "UTF-8");
+  System.setProperty("saffron.default.collation.name", "UTF-8$en_US");
 
-        Map<String, TemplateModel> macrosValuesMap = new HashMap<>();
-        macrosValuesMap.put("REST_API_VERSION", new SimpleScalar("v1.0"));
+  Map<String, TemplateModel> macrosValuesMap = new HashMap<>();
+  macrosValuesMap.put("REST_API_VERSION", new SimpleScalar("v1.0"));
 
-        Properties properties = new Properties();
-        properties.setProperty(CalciteConnectionProperty.FUN.camelName(), "all");
-        properties.setProperty(CalciteConnectionProperty.CASE_SENSITIVE.camelName(), "false");
-        properties.setProperty(CalciteConnectionProperty.QUOTED_CASING.camelName(), Casing.UNCHANGED.name());
-        properties.setProperty(CalciteConnectionProperty.UNQUOTED_CASING.camelName(), Casing.UNCHANGED.name());
-        properties.setProperty(CalciteConnectionProperty.LEX.camelName(), "JAVA");
+  Properties properties = new Properties();
+  properties.setProperty(CalciteConnectionProperty.FUN.camelName(), "all");
+  properties.setProperty(CalciteConnectionProperty.CASE_SENSITIVE.camelName(), "false");
+  properties.setProperty(CalciteConnectionProperty.QUOTED_CASING.camelName(), Casing.UNCHANGED.name());
+  properties.setProperty(CalciteConnectionProperty.UNQUOTED_CASING.camelName(), Casing.UNCHANGED.name());
+  properties.setProperty(CalciteConnectionProperty.LEX.camelName(), "JAVA");
 
-        DriverManager.registerDriver(new org.apache.calcite.jdbc.Driver());
-        CalciteConnection calciteConnection = DriverManager.getConnection("jdbc:calcite:", properties).unwrap(CalciteConnection.class);
-        calciteConnection.setSchema(DEFAULT_SCHEMA_NAME);
-
-        Map<String, Object> contextMap = new HashMap<>();
-        contextMap.put(CONTEXT_NAME, macrosValuesMap);
-        
-        return calciteConnection;
-    }
+  DriverManager.registerDriver(new org.apache.calcite.jdbc.Driver());
+  CalciteConnection calciteConnection = DriverManager.getConnection("jdbc:calcite:", properties).unwrap(CalciteConnection.class);
+  SchemaPlus rootSchema = configuredConnection.getRootSchema();
+  SchemaFactory restSchemaFactory = new RestSchemaFactory();
+  Map<String, Object> contextMap = new HashMap<>();
+  contextMap.put(CONTEXT_NAME, macrosValuesMap);
+  Schema schema = restSchemaFactory.create(rootSchema, "", contextMap);
+  rootSchema.add(schemaName, schema);
+  calciteConnection.setSchema(DEFAULT_SCHEMA_NAME);
+  
+  return calciteConnection;
+}
 ```
 
 Адаптер собирается как билиотека и кладется в classpath вашего приложения. 
