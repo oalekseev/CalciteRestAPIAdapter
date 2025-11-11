@@ -364,7 +364,9 @@ public static void main(String[] args) {
        PreparedStatement ps = connection.prepareStatement("SELECT * FROM users");) {
       ResultSet rs = ps.executeQuery();
       while (rs.next()) {
-          String field1 = rs.getString(1);
+          String userName = rs.getString("name");
+          int userAge = rs.getInt("age");
+          //get other fields
       }
       //Do some work
 
