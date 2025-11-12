@@ -285,7 +285,7 @@ Other example, SQL:
 WHERE (name = 'Bob' OR age = 23)
   AND (name = 'Martin' OR (age >= 21 AND name <> 'Alice'))
 ```
-
+is expanded to:
 ```sql
 (name = 'Bob' AND name = 'Martin')
 OR
@@ -295,7 +295,6 @@ OR
 OR
 (age = 23 AND age >= 21 AND name <> 'Alice')
 ```
-
 
 is converted to:
 ```json
