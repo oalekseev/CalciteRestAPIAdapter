@@ -277,15 +277,23 @@ WHERE (name = 'Bob' OR age = 23)
   AND (name = 'Martin' OR (age >= 21 AND name <> 'Alice'))
 ```
 
-DNF формула:
-$$
-(\text{name = 'Bob'} \vee \text{age = 23}) \wedge (\text{name = 'Martin'} \vee (\text{age} \geq 21 \wedge \text{name} \neq 'Alice'))
-$$
-Это эквивалентно:
-- (name = 'Bob' AND name = 'Martin')
-- (age = 23 AND name = 'Martin')
-- (name = 'Bob' AND age >= 21 AND name <> 'Alice')
-- (age = 23 AND age >= 21 AND name <> 'Alice')
+is expanded to:
+```
+"where": [
+   { "name": "name", "operator": "=", "value": "Alice" },
+   { "name": "age", "operator": ">=", "value": "21" }
+],
+"or": [
+   [
+       { "name": "name", "operator": "=", "value": "Bob" },
+       { "name": "age", "operator": ">=", "value": "21" }
+   ],
+   [
+       { "name": "name", "operator": "=", "value": "Martin" },
+       { "name": "age", "operator": ">=", "value": "21" }
+   ]
+]
+```
 
 
 is converted to:
