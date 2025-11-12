@@ -257,17 +257,58 @@ The request body uses:
   - **Inner list (AND):** Each group contains criteria (field, operator, value) that must all be satisfied.
 
 For example, SQL:
-```
+```sql
 WHERE (name = 'Alice' AND age >= 21)
-   OR (name = 'Bob' AND age >= 21)
-   OR (name = 'Martin' AND age >= 21)
+  OR (name = 'Bob' AND age >= 21)
+  OR (name = 'Martin' AND age >= 21)
 ```
 is converted to:
-```java
+```json
 [
   [ {name: "name", operator: "=", value: "Alice"}, {name: "age", operator: ">=", value: "21"} ],
   [ {name: "name", operator: "=", value: "Bob"}, {name: "age", operator: ">=", value: "21"} ],
   [ {name: "name", operator: "=", value: "Martin"}, {name: "age", operator: ">=", value: "21"} ]
+]
+```
+
+Other example, SQL:
+```sql
+WHERE (name = 'Bob' OR age = 23)
+  AND (name = 'Martin' OR (age >= 21 AND name <> 'Alice'))
+```
+
+DNF формула:
+$$
+(\text{name = 'Bob'} \vee \text{age = 23}) \wedge (\text{name = 'Martin'} \vee (\text{age} \geq 21 \wedge \text{name} \neq 'Alice'))
+$$
+Это эквивалентно:
+- (name = 'Bob' AND name = 'Martin')
+- (age = 23 AND name = 'Martin')
+- (name = 'Bob' AND age >= 21 AND name <> 'Alice')
+- (age = 23 AND age >= 21 AND name <> 'Alice')
+
+
+is converted to:
+```json
+"where": [
+    { "name": "name", "operator": "=",    "value": "Bob" },
+    { "name": "name", "operator": "=",    "value": "Martin" }
+],
+"or": [
+    [
+        { "name": "age",  "operator": "=",    "value": 23 },
+        { "name": "name", "operator": "=",    "value": "Martin" }
+    ],
+    [
+        { "name": "name", "operator": "=",    "value": "Bob" },
+        { "name": "age",  "operator": ">=",   "value": 21 },
+        { "name": "name", "operator": "<>",   "value": "Alice" }
+    ],
+    [
+        { "name": "age",  "operator": "=",    "value": 23 },
+        { "name": "age",  "operator": ">=",   "value": 21 },
+        { "name": "name", "operator": "<>",   "value": "Alice" }
+    ]
 ]
 ```
 
