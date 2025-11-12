@@ -174,7 +174,8 @@ Here, all filtering parameters are flat; nested or OR conditions are not support
     </#if>
 }]]>
 ```
-- Filters containing other operators or logical OR will produce an error.
+
+Filters containing other operators or logical OR will produce an error.
 
 ***
 
