@@ -262,7 +262,7 @@ WHERE (name = 'Alice' AND age >= 21)
   OR (name = 'Bob' AND age >= 21)
   OR (name = 'Martin' AND age >= 21)
 ```
-is converted to DNF:
+is converted to REST request:
 ```json
 "where": [
        { "name": "name", "operator": "=", "value": "Alice" },
@@ -285,7 +285,7 @@ Other example, SQL:
 WHERE (name = 'Bob' OR age = 23)
   AND (name = 'Martin' OR (age >= 21 AND name <> 'Alice'))
 ```
-is expanded to:
+is expanded to DNF:
 ```sql
 (name = 'Bob' AND name = 'Martin')
 OR
@@ -296,7 +296,7 @@ OR
 (age = 23 AND age >= 21 AND name <> 'Alice')
 ```
 
-is converted to:
+is converted to REST request: 
 ```json
 "where": [
     { "name": "name", "operator": "=",    "value": "Bob" },
