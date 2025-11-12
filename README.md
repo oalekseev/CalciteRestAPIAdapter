@@ -268,16 +268,16 @@ is converted to:
        { "name": "name", "operator": "=", "value": "Alice" },
        { "name": "age", "operator": ">=", "value": "21" }
    ],
-   "or": [
-       [
-           { "name": "name", "operator": "=", "value": "Bob" },
-           { "name": "age", "operator": ">=", "value": "21" }
-       ],
-       [
-           { "name": "name", "operator": "=", "value": "Martin" },
-           { "name": "age", "operator": ">=", "value": "21" }
-       ]
+"or": [
+   [
+       { "name": "name", "operator": "=", "value": "Bob" },
+       { "name": "age", "operator": ">=", "value": "21" }
+   ],
+   [
+       { "name": "name", "operator": "=", "value": "Martin" },
+       { "name": "age", "operator": ">=", "value": "21" }
    ]
+]
 ```
 
 Other example, SQL:
