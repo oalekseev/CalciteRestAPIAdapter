@@ -1,10 +1,19 @@
 # CalciteRestAPIAdapter
 
-CalciteRestAPIAdapter is designed to retrieve data from REST services using standard SQL syntax. It uses the [Apache Calcite](https://calcite.apache.org/) framework, which enables the creation of adapters for various data sources via the JDBC interface.
+**CalciteRestAPIAdapter** enables data retrieval from REST services using standard SQL syntax. It builds on the [Apache Calcite](https://calcite.apache.org/) framework, which allows the creation of adapters for diverse data sources through JDBC.
 
-Challenge was the unpredictable nature of REST services and their request formats. To address this, it utilizes Apache Freemarker as a template engine for forming the actual REST request. This means that the application does not have to be rebuilt or redeployed when supporting a new REST source; instead, a user only needs to provide an XML configuration file for the new REST service, defining the request template using Freemarker.
+**Key Features:**
+- SQL access to arbitrary REST APIs via dynamic configuration.
+- Flexible adaptation to any REST service without code changes.
+- Uses Apache Freemarker for customizable REST request body generation.
 
-The adapter provides SQL access to REST APIs, with configuration details defined in XML files. Each XML file describes the service, its tables, fields, data types, and the mapping between REST responses and SQL table fields.
+A main challenge with REST services is their varied, often unpredictable request formats. To solve this, the adapter relies on Freemarker templates: a new REST source is supported simply by providing an XML configuration describing its request structure—no rebuild and redeploy is needed.
+
+Configurations (XML files) define:
+- Service description
+- Available tables
+- Fields and types
+- Mapping REST responses to SQL tables
 
 Below is an example XML file for REST API – `OrdersService` with `users` and `orders` tables:
 
@@ -130,6 +139,148 @@ Example: if page-start=0, page-size=100, then macro `${limit}=100`, and macro `$
 Request parameters are critical to limit REST response volume; make sure REST can restrict results, if not, it may return all data.
 
 ---
+
+## Request Body Formation
+
+### Services Without DNF Support
+
+Some REST APIs only accept simple filters: conditions joined by **AND**, with the equality operator `=` only.  
+Here, all filtering parameters are flat; nested or OR conditions are not supported.
+
+**Example (flat filtering):**
+```json
+{
+   "name": "users",
+   "page": 1,
+   "limit": 1000,
+   "name": "Alice",
+   "age": "21"
+}
+```
+
+**Freemarker template:**
+```xml
+<![CDATA[{
+    "name": "${name}",
+    "page": ${(offset / limit)?int}
+    "limit": ${limit},
+    <#if filters?has_content>,
+        <#if (filters?size > 1)><#stop "Error: REST service does not support OR operators"></#if>
+        <#list filters[0] as criterion>
+            <#if (criterion.operator != '=')><#stop "Error: Only '=' operator is supported. Found operator: '${criterion.operator}'"></#if>
+            "${criterion.name}": "${criterion.value}"
+            <#if criterion?has_next>, </#if>
+        </#list>
+    </#if>
+}]]>
+```
+- Filters containing other operators or logical OR will produce an error.
+
+***
+
+### Services With DNF Support
+
+Advanced REST APIs may support **Disjunctive Normal Form (DNF)** filters: complex logical expressions using both AND and OR, with multiple comparison operators.
+
+The request body uses:
+- `where`: conditions joined by AND (`filters[0]`)
+- `or`: each entry is a group of ANDed conditions; groups joined by OR (`filters[1..]`)
+
+**Example (DNF filtering):**
+```json
+{
+   "name": "users",
+   "page": 1,
+   "limit": 1000,
+   "where": [
+       { "name": "name", "operator": "=", "value": "Alice" },
+       { "name": "age", "operator": ">=", "value": "21" }
+   ],
+   "or": [
+       [
+           { "name": "name", "operator": "=", "value": "Bob" },
+           { "name": "age", "operator": ">=", "value": "21" }
+       ],
+       [
+           { "name": "name", "operator": "=", "value": "Martin" },
+           { "name": "age", "operator": ">=", "value": "21" }
+       ]
+   ]
+}
+```
+
+**Freemarker template:**
+```xml
+<![CDATA[{
+    "name": "${name}",
+    "page": ${(offset / limit)?int}
+    "limit": ${limit},
+    <#if filters?has_content>
+        "where": [
+            <#list filters[0] as criterion>
+                {
+                    "name": "${criterion.name}",
+                    "operator": "${criterion.operator}",
+                    "value": "${criterion.value}"
+                }<#if criterion?has_next>,</#if>
+            </#list>
+        ]
+        <#if filters?size > 1>
+        ,
+        "or": [
+            <#list filters?seq[1..] as orGroup>
+                [
+                    <#list orGroup as criterion>
+                        {
+                            "name": "${criterion.name}",
+                            "operator": "${criterion.operator}",
+                            "value": "${criterion.value}"
+                        }<#if criterion?has_next>,</#if>
+                    </#list>
+                ]<#if orGroup?has_next>,</#if>
+            </#list>
+        ]
+        </#if>
+    </#if>
+}]]>
+```
+
+***
+
+## How Filter Transformation Works
+
+- The adapter transforms incoming SQL filter conditions into **Disjunctive Normal Form (DNF)**.
+- Internally, `filters` is structured as a **list of lists**:
+  - **Outer list (OR):** Represents alternative groups of conditions.
+  - **Inner list (AND):** Each group contains criteria (field, operator, value) that must all be satisfied.
+
+For example, SQL:
+```
+WHERE (name = 'Alice' AND age >= 21)
+   OR (name = 'Bob' AND age >= 21)
+   OR (name = 'Martin' AND age >= 21)
+```
+is converted to:
+```java
+[
+  [ {name: "name", operator: "=", value: "Alice"}, {name: "age", operator: ">=", value: "21"} ],
+  [ {name: "name", operator: "=", value: "Bob"}, {name: "age", operator: ">=", value: "21"} ],
+  [ {name: "name", operator: "=", value: "Martin"}, {name: "age", operator: ">=", value: "21"} ]
+]
+```
+
+**Each filter criterion is an object:**
+- `name`: field name (e.g. `age`)
+- `operator`: comparison operator (e.g. `>=`, `=`)
+- `value`: comparison value (e.g. `21`)
+
+This transformation enables flexible, accurate REST queries reflecting any logical filter structure that can be expressed in SQL.
+
+---
+
+
+
+
 
 ## Request body
 ### REST services without support for DNF (Disjunctive Normal Form)  
