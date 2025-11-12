@@ -2,11 +2,19 @@
 
 **CalciteRestAPIAdapter** enables data retrieval from REST services using standard SQL syntax. It builds on the [Apache Calcite](https://calcite.apache.org/) framework, which allows the creation of adapters for diverse data sources through JDBC.
 
+
 **Key Features:**
-- SQL access to arbitrary REST APIs via dynamic configuration.
-- Flexible adaptation to any REST service without code changes.
-- Uses Apache Freemarker for customizable REST request body generation.
-- Automatically converts any SQL filter conditions into Disjunctive Normal Form (DNF), enabling both simple and complex logical filtering.
+
+- **SQL access to arbitrary REST APIs via dynamic configuration**
+- **Flexible adaptation to any REST service without code changes**
+- **Uses Apache Freemarker for customizable REST request body generation**
+- **Automatically converts any SQL filter conditions into Disjunctive Normal Form (DNF), enabling both simple and complex logical filtering**
+- **Supports pagination:** retrieves large result sets in sequential batches via configurable limit and offset parameters, preventing network overload and ensuring efficient data transfer
+- **Custom request fields and headers:** allows injection of any additional fields (e.g., for authentication/authorization) or other custom parameters required by your API into REST request body url, headers 
+
+***
+
+Just insert this list into your README’s feature section. Let me know if you want examples or want these features described in more detail elsewhere in your README!
 
 A main challenge with REST services is their varied, often unpredictable request formats. To solve this, the adapter relies on Apache Freemarker templates: a new REST source is supported simply by providing an XML configuration describing its request structure – no rebuild and redeploy is needed.
 
