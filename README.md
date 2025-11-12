@@ -304,7 +304,7 @@ OR
 (age = 23 AND age >= 21 AND name <> 'Alice')
 ```
 
-is converted to REST request: 
+and than is converted to REST request: 
 ```json
 "where": [
     { "name": "name", "operator": "=",    "value": "Bob" },
