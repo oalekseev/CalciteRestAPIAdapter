@@ -10,7 +10,7 @@
 - **Uses Apache Freemarker for customizable REST request body generation**
 - **Automatically converts any SQL filter conditions into Disjunctive Normal Form (DNF), enabling both simple and complex logical filtering**
 - **Supports pagination:** retrieves large result sets in sequential batches via configurable limit and offset parameters, preventing network overload and ensuring efficient data transfer
-- **Custom request fields and headers:** allows injection of any additional fields (e.g., for authentication/authorization) or other custom parameters required by your API into REST request body url, headers 
+- **Custom request fields and headers:** allows injection of any additional fields (e.g., for authentication/authorization) or other custom parameters required by your API into REST request body, url, headers 
 
 ***
 
