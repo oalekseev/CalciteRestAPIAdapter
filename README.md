@@ -1,7 +1,9 @@
 # CalciteRestAPIAdapter
 
 CalciteRestAPIAdapter is designed to retrieve data from REST services using standard SQL syntax. It uses the [Apache Calcite](https://calcite.apache.org/) framework, which enables the creation of adapters for various data sources via the JDBC interface.
+
 Challenge was the unpredictable nature of REST services and their request formats. To address this, it utilizes Apache Freemarker as a template engine for forming the actual REST request. This means that the application does not have to be rebuilt or redeployed when supporting a new REST source; instead, a user only needs to provide an XML configuration file for the new REST service, defining the request template using Freemarker.
+
 The adapter provides SQL access to REST APIs, with configuration details defined in XML files. Each XML file describes the service, its tables, fields, data types, and the mapping between REST responses and SQL table fields.
 
 Below is an example XML file for REST API – `OrdersService` with `users` and `orders` tables:
