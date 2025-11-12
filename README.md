@@ -6,6 +6,7 @@
 - SQL access to arbitrary REST APIs via dynamic configuration.
 - Flexible adaptation to any REST service without code changes.
 - Uses Apache Freemarker for customizable REST request body generation.
+- Automatically converts any SQL filter conditions into Disjunctive Normal Form (DNF), enabling both simple and complex logical filtering.
 
 A main challenge with REST services is their varied, often unpredictable request formats. To solve this, the adapter relies on Freemarker templates: a new REST source is supported simply by providing an XML configuration describing its request structure—no rebuild and redeploy is needed.
 
