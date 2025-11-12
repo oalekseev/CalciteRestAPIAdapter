@@ -264,11 +264,20 @@ WHERE (name = 'Alice' AND age >= 21)
 ```
 is converted to:
 ```json
-[
-  [ {name: "name", operator: "=", value: "Alice"}, {name: "age", operator: ">=", value: "21"} ],
-  [ {name: "name", operator: "=", value: "Bob"}, {name: "age", operator: ">=", value: "21"} ],
-  [ {name: "name", operator: "=", value: "Martin"}, {name: "age", operator: ">=", value: "21"} ]
-]
+"where": [
+       { "name": "name", "operator": "=", "value": "Alice" },
+       { "name": "age", "operator": ">=", "value": "21" }
+   ],
+   "or": [
+       [
+           { "name": "name", "operator": "=", "value": "Bob" },
+           { "name": "age", "operator": ">=", "value": "21" }
+       ],
+       [
+           { "name": "name", "operator": "=", "value": "Martin" },
+           { "name": "age", "operator": ">=", "value": "21" }
+       ]
+   ]
 ```
 
 Other example, SQL:
@@ -277,22 +286,14 @@ WHERE (name = 'Bob' OR age = 23)
   AND (name = 'Martin' OR (age >= 21 AND name <> 'Alice'))
 ```
 
-is expanded to:
-```
-"where": [
-   { "name": "name", "operator": "=", "value": "Alice" },
-   { "name": "age", "operator": ">=", "value": "21" }
-],
-"or": [
-   [
-       { "name": "name", "operator": "=", "value": "Bob" },
-       { "name": "age", "operator": ">=", "value": "21" }
-   ],
-   [
-       { "name": "name", "operator": "=", "value": "Martin" },
-       { "name": "age", "operator": ">=", "value": "21" }
-   ]
-]
+```sql
+(name = 'Bob' AND name = 'Martin')
+OR
+(age = 23 AND name = 'Martin')
+OR
+(name = 'Bob' AND age >= 21 AND name <> 'Alice')
+OR
+(age = 23 AND age >= 21 AND name <> 'Alice')
 ```
 
 
