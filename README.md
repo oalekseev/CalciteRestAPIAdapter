@@ -262,7 +262,7 @@ WHERE (name = 'Alice' AND age >= 21)
   OR (name = 'Bob' AND age >= 21)
   OR (name = 'Martin' AND age >= 21)
 ```
-is converted to:
+is converted to DNF:
 ```json
 "where": [
        { "name": "name", "operator": "=", "value": "Alice" },
