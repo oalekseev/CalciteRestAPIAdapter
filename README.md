@@ -14,10 +14,6 @@
 
 ***
 
-Just insert this list into your README’s feature section. Let me know if you want examples or want these features described in more detail elsewhere in your README!
-
-A main challenge with REST services is their varied, often unpredictable request formats. To solve this, the adapter relies on Apache Freemarker templates: a new REST source is supported simply by providing an XML configuration describing its request structure – no rebuild and redeploy is needed.
-
 Configurations (XML files) define:
 - Service description
 - Available tables
