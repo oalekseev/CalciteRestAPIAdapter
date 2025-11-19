@@ -552,7 +552,7 @@ The adapter is built as a library and placed on your application's classpath. Th
 - Apache Commons io 2.11
 - stax2-api 4.2
 
-REST service configuration XML files should be placed in a directory, such as calcite/rest, and the path to it should be specified in the `calcite.rest` system property.
+REST service configuration XML files should be placed in a directory, such as `calcite\rest`, and the path to it should be specified in the `calcite.rest` system property.
 
 ```
 set "APP_HOME=%~dp0"
@@ -562,4 +562,4 @@ set "JVM_OPTS=%JVM_OPTS% -Dfile.encoding=UTF-8"
 set "JVM_OPTS=%JVM_OPTS% -Dcalcite.rest=%APP_HOME%..\calcite\rest"
 ```
 
-If the `calcite.rest` system property isn't defined, the adapter tries to find the `catalina.base` system property (assuming the Apache Tomcat application server is used) and then searches for the calcite/rest directory relative to it.
+If the `calcite.rest` system property isn't defined, the adapter tries to find the `catalina.base` system property (assuming the Apache Tomcat application server is used) and then searches for the `calcite\rest` directory relative to it.
