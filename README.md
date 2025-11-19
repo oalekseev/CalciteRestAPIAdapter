@@ -20,7 +20,7 @@ Configurations (XML files) define:
 - Fields and types
 - Mapping REST responses to SQL tables
 
-Below is an example XML file for REST API – `OrdersService` with `users` and `orders` tables:
+Below is an example REST config XML file for REST API – `OrdersService` with `users` and `orders` tables:
 
 ```xml
 <service>
@@ -466,7 +466,7 @@ WHERE (name = 'Bob' OR age = 23)
 
 ## Usage
 
-In your app, you should create a Calcite connection like any other java.sql.Connection﻿ and use it in the usual way.
+In your app, you should create a Calcite connection like any other java.sql.Connection and use it in the usual way.
 
 ```java
 private final static String DEFAULT_SCHEMA_NAME = "rest";
@@ -552,3 +552,14 @@ The adapter is built as a library and placed on your application's classpath. Th
 - Apache Commons io 2.11
 - stax2-api 4.2
 
+REST service configuration XML files should be placed in a directory, such as calcite/rest, and the path to it should be specified in the `calcite.rest` system property.
+
+```
+set "APP_HOME=%~dp0"
+set "JVM_OPTS=-Xms24m"
+set "JVM_OPTS=%JVM_OPTS% -Xmx512m"
+set "JVM_OPTS=%JVM_OPTS% -Dfile.encoding=UTF-8"
+set "JVM_OPTS=%JVM_OPTS% -Dcalcite.rest=%APP_HOME%..\calcite\rest"
+```
+
+If the `calcite.rest` system property isn't defined, the adapter tries to find the `catalina.base` system property (assuming the Apache Tomcat application server is used) and then searches for the calcite/rest directory relative to it.
