@@ -473,19 +473,20 @@ private final static String DEFAULT_SCHEMA_NAME = "rest";
 private final static String CONTEXT_NAME = "context";
 
 public static void main(String[] args) {
-  try (Connection connection = getConnection();
-       Statement statement = connection.createStatement();) {
-      ResultSet rs = statement.executeQuery("SELECT * FROM users u");
-      while (rs.next()) {
-          String userName = rs.getString("name");
-          int userAge = rs.getInt("age");
-          //get other fields
-      }
-      //Do some work
+    try (Connection connection = getConnection();
+         Statement statement = connection.createStatement()) {
 
-  } catch (Exception e) {
-      throw new RuntimeException(e);
-  }
+        try (ResultSet rs = statement.executeQuery("SELECT * FROM users u")) {
+            while (rs.next()) {
+                String userName = rs.getString("name");
+                int userAge = rs.getInt("age");
+                //get other fields
+            }
+            //Do some work
+        }
+    } catch (Exception e) {
+        throw new RuntimeException(e);
+    }
 }
 
 private Connection getConnection() {
