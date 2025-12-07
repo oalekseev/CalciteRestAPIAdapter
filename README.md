@@ -172,8 +172,7 @@ Here, all filtering parameters are flat; nested or OR conditions are not support
         <#if (filters?size > 1)><#stop "Error: REST service does not support OR operators"></#if>
         <#list filters[0] as criterion>
             <#if (criterion.operator != '=')><#stop "Error: Only '=' operator is supported. Found operator: '${criterion.operator}'"></#if>
-            "${criterion.name}": "${criterion.value}"
-            <#if criterion?has_next>, </#if>
+            "${criterion.name}": "${criterion.value}"<#if criterion?has_next>, </#if>
         </#list></#if>
 }]]>
 ```
@@ -228,8 +227,7 @@ The request body uses:
                 }<#if criterion?has_next>,</#if>
             </#list>
         ]
-        <#if filters?size > 1>
-        ,
+        <#if filters?size > 1>,
         "or": [
             <#list filters?seq[1..] as orGroup>
                 [
