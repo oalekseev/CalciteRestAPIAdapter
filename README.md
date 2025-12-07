@@ -167,16 +167,14 @@ Here, all filtering parameters are flat; nested or OR conditions are not support
 ```xml
 <![CDATA[{
     "name": "${name}",
-    "page": ${(offset / limit)?int}
-    "limit": ${limit},
-    <#if filters?has_content>,
+    "page": ${(offset / limit)?int},
+    "limit": ${limit}<#if filters?has_content>,
         <#if (filters?size > 1)><#stop "Error: REST service does not support OR operators"></#if>
         <#list filters[0] as criterion>
             <#if (criterion.operator != '=')><#stop "Error: Only '=' operator is supported. Found operator: '${criterion.operator}'"></#if>
             "${criterion.name}": "${criterion.value}"
             <#if criterion?has_next>, </#if>
-        </#list>
-    </#if>
+        </#list></#if>
 }]]>
 ```
 
@@ -219,9 +217,8 @@ The request body uses:
 ```xml
 <![CDATA[{
     "name": "${name}",
-    "page": ${(offset / limit)?int}
-    "limit": ${limit},
-    <#if filters?has_content>
+    "page": ${(offset / limit)?int},
+    "limit": ${limit}<#if filters?has_content>,
         "where": [
             <#list filters[0] as criterion>
                 {
@@ -246,8 +243,7 @@ The request body uses:
                 ]<#if orGroup?has_next>,</#if>
             </#list>
         ]
-        </#if>
-    </#if>
+        </#if></#if>
 }]]>
 ```
 
