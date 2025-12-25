@@ -1,3 +1,24 @@
+## Version Information
+
+**Current Version:** v1 (Stable - XML-based Configuration)
+
+This is the **production-ready version** using simple XML configuration files for REST API schema definition.
+
+### Available Versions
+
+| Version | Configuration | Status | Repository |
+|---------|---------------|--------|------------|
+| **v1** | XML Files | Stable | [CalciteRestAPIAdapter](https://github.com/oalekseev/CalciteRestAPIAdapter) |
+| **v2** | OpenAPI Specs | Recommended | [CalciteRestAPIAdapter-v2](https://github.com/oalekseev/CalciteRestAPIAdapter-v2) |
+
+### Migration to v2
+
+If you're interested in the **new v2 version with OpenAPI support**, which offers auto-schema generation and advanced filtering capabilities, please visit:
+
+**[CalciteRestAPIAdapter-v2](https://github.com/oalekseev/CalciteRestAPIAdapter-v2)** → OpenAPI-based configuration with FreeMarker templates
+
+---
+
 # CalciteRestAPIAdapter
 
 **CalciteRestAPIAdapter** enables data retrieval from REST services using standard SQL syntax. It builds on the [Apache Calcite](https://calcite.apache.org/) framework, which allows the creation of adapters for diverse data sources through JDBC. Proposal to contribute for community use is [here](https://lists.apache.org/thread/jvbpz7rp7w76gqmshtz3y6bhcftk41c5)
