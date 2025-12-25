@@ -21,7 +21,10 @@ If you're interested in the **new v2 version with OpenAPI support**, which offer
 
 # CalciteRestAPIAdapter
 
-**CalciteRestAPIAdapter** enables data retrieval from REST services using standard SQL syntax. It builds on the [Apache Calcite](https://calcite.apache.org/) framework, which allows the creation of adapters for diverse data sources through JDBC. Proposal to contribute for community use is [here](https://lists.apache.org/thread/jvbpz7rp7w76gqmshtz3y6bhcftk41c5)
+**CalciteRestAPIAdapter** enables data retrieval from REST services using standard SQL syntax. It builds on the [Apache Calcite](https://calcite.apache.org/) framework, which allows the creation of adapters for diverse data sources through JDBC. 
+
+Proposal to contribute for community use is [here](https://lists.apache.org/thread/jvbpz7rp7w76gqmshtz3y6bhcftk41c5)
+Here is jira tiket [CALCITE-7300](https://issues.apache.org/jira/browse/CALCITE-7300)
 
 
 **Key Features:**
